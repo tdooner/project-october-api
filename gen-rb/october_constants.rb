@@ -7,7 +7,7 @@
 require 'thrift'
 require 'october_types'
 
-module Recommender
+module Backend
   VERSION = %q"0.0.1"
 
 end

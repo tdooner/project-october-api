@@ -7,7 +7,7 @@
 require 'thrift'
 require 'october_types'
 
-module Recommender
+module Backend
   module Recommender
     class Client
       include ::Thrift::Client
@@ -56,7 +56,7 @@ module Recommender
         result = Ping_result.new()
         begin
           result.success = @handler.ping()
-        rescue ::Recommender::TimeoutException => te
+        rescue ::Backend::TimeoutException => te
           result.te = te
         end
         write_result(result, oprot, 'ping', seqid)
@@ -67,11 +67,11 @@ module Recommender
         result = RecPosts_result.new()
         begin
           result.success = @handler.recPosts(args.user_id)
-        rescue ::Recommender::NotFoundException => nfe
+        rescue ::Backend::NotFoundException => nfe
           result.nfe = nfe
-        rescue ::Recommender::EngineException => ee
+        rescue ::Backend::EngineException => ee
           result.ee = ee
-        rescue ::Recommender::TimeoutException => te
+        rescue ::Backend::TimeoutException => te
           result.te = te
         end
         write_result(result, oprot, 'recPosts', seqid)
@@ -103,7 +103,7 @@ module Recommender
 
       FIELDS = {
         SUCCESS => {:type => ::Thrift::Types::STRING, :name => 'success'},
-        TE => {:type => ::Thrift::Types::STRUCT, :name => 'te', :class => ::Recommender::TimeoutException}
+        TE => {:type => ::Thrift::Types::STRUCT, :name => 'te', :class => ::Backend::TimeoutException}
       }
 
       def struct_fields; FIELDS; end
@@ -139,10 +139,10 @@ module Recommender
       TE = 3
 
       FIELDS = {
-        SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Recommender::PostList},
-        NFE => {:type => ::Thrift::Types::STRUCT, :name => 'nfe', :class => ::Recommender::NotFoundException},
-        EE => {:type => ::Thrift::Types::STRUCT, :name => 'ee', :class => ::Recommender::EngineException},
-        TE => {:type => ::Thrift::Types::STRUCT, :name => 'te', :class => ::Recommender::TimeoutException}
+        SUCCESS => {:type => ::Thrift::Types::STRUCT, :name => 'success', :class => ::Backend::PostList},
+        NFE => {:type => ::Thrift::Types::STRUCT, :name => 'nfe', :class => ::Backend::NotFoundException},
+        EE => {:type => ::Thrift::Types::STRUCT, :name => 'ee', :class => ::Backend::EngineException},
+        TE => {:type => ::Thrift::Types::STRUCT, :name => 'te', :class => ::Backend::TimeoutException}
       }
 
       def struct_fields; FIELDS; end

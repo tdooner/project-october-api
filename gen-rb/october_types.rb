@@ -6,7 +6,7 @@
 
 require 'thrift'
 
-module Recommender
+module Backend
   # A single post with its calculated weight.
 # @param post_id, the unique id of a post.
 # @param weight, the "importance" of the post to the querying user [0,1].
@@ -39,7 +39,7 @@ module Recommender
 
     FIELDS = {
       CONFIDENCE => {:type => ::Thrift::Types::DOUBLE, :name => 'confidence', :optional => true},
-      POSTS => {:type => ::Thrift::Types::LIST, :name => 'posts', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Recommender::Post}}
+      POSTS => {:type => ::Thrift::Types::LIST, :name => 'posts', :element => {:type => ::Thrift::Types::STRUCT, :class => ::Backend::Post}}
     }
 
     def struct_fields; FIELDS; end
